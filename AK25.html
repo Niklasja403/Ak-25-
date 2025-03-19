@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AK25 Animation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
+        
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            position: relative;
+        }
+        .background-video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .content {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100vh;
+        }
+        .box {
+            color: white;
+            font-size: 80px;
+            font-weight: bold;
+            font-family: 'Rock Salt', cursive;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: opacity 1s ease-in-out;
+        }
+        .path {
+            width: 50%;
+            height: 30px;
+            background-color: gray;
+            border-radius: 10px;
+            position: relative;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+        .path-filled {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, pink, blue);
+            border-radius: 10px;
+            transition: width 4s linear;
+        }
+        .volume-control {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .volume-control input {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <audio id="background-music" loop autoplay>
+        <source src="background.mp3" type="audio/mp3">
+        Dein Browser unterstützt kein HTML5-Audio.
+    </audio>
+    <video class="background-video" autoplay loop muted id="video">
+        <source src="background.mp4" type="video/mp4">
+        Dein Browser unterstützt kein HTML5-Video.
+    </video>
+    <div class="content" id="content">
+        <div class="box" id="ak25">AK25</div>
+        <div class="path" id="path">
+            <div class="path-filled" id="pathFilled"></div>
+        </div>
+    </div>
+    <div class="volume-control">
+        <label for="volume">Lautstärke:</label>
+        <input type="range" id="volume" min="0" max="1" step="0.1" value="1">
+    </div>
+    <script>
+        let pathFilled = document.getElementById("pathFilled");
+        let ak25 = document.getElementById("ak25");
+        let path = document.getElementById("path");
+        let video = document.getElementById("video");
+        let music = document.getElementById("background-music");
+        let volumeControl = document.getElementById("volume");
+
+        volumeControl.addEventListener("input", function() {
+            music.volume = volumeControl.value;
+        });
+        
+        function animatePath() {
+            let progress = 0;
+            let forward = true;
+            let interval = setInterval(() => {
+                if (forward) {
+                    progress += 2;
+                    if (progress >= 100) {
+                        forward = false;
+                    }
+                } else {
+                    progress -= 2;
+                    if (progress <= 50) {
+                        clearInterval(interval);
+                        ak25.style.opacity = "0";
+                        path.style.opacity = "0";
+                        setTimeout(() => {
+                            video.style.opacity = "1";
+                        }, 500);
+                    }
+                }
+                pathFilled.style.width = progress + "%";
+            }, 100);
+        }
+        
+        setTimeout(animatePath, 500);
+    </script>
+</body>
+</html>
