@@ -10,7 +10,7 @@
         body {
             margin: 0;
             overflow: hidden;
-            background-color: red;
+            background-color: rgb(0, 0, 0);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -67,19 +67,6 @@
             border-radius: 10px;
             transition: width 4s linear;
         }
-        .volume-control {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
-        .volume-control input {
-            margin-left: 10px;
-        }
     </style>
 </head>
 <body>
@@ -92,14 +79,10 @@
         Dein Browser unterstützt kein HTML5-Video.
     </video>
     <div class="content" id="content">
-        <div class="box" id="ak25">AK25</div>
+        <div class="box" id="ak25">AF24 H10A</div>
         <div class="path" id="path">
             <div class="path-filled" id="pathFilled"></div>
         </div>
-    </div>
-    <div class="volume-control">
-        <label for="volume">Lautstärke:</label>
-        <input type="range" id="volume" min="0" max="1" step="0.1" value="1">
     </div>
     <script>
         let pathFilled = document.getElementById("pathFilled");
@@ -107,16 +90,9 @@
         let path = document.getElementById("path");
         let video = document.getElementById("video");
         let music = document.getElementById("background-music");
-        let volumeControl = document.getElementById("volume");
         
-        document.addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
-                music.play().catch(error => console.log("Autoplay verhindert: ", error));
-            }
-        });
-
-        volumeControl.addEventListener("input", function() {
-            music.volume = volumeControl.value;
+        document.addEventListener("click", function() {
+            music.play().catch(error => console.log("Autoplay verhindert: ", error));
         });
         
         function animatePath() {
