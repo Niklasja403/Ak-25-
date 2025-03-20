@@ -56,6 +56,7 @@
             position: relative;
             opacity: 1;
             transition: opacity 1s ease-in-out;
+            margin-bottom: 10px;
         }
         .path-filled {
             position: absolute;
@@ -66,6 +67,13 @@
             background: linear-gradient(90deg, pink, blue);
             border-radius: 10px;
             transition: width 4s linear;
+        }
+        .explanation {
+            color: white;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -79,14 +87,16 @@
         Dein Browser unterstützt kein HTML5-Video.
     </video>
     <div class="content" id="content">
-        <div class="box" id="ak25">AF24 H10A</div>
+        <div class="box" id="ak25">Af* 24/25</div>
         <div class="path" id="path">
             <div class="path-filled" id="pathFilled"></div>
         </div>
+        <div class="explanation" style="opacity: 1; transition: opacity 1s ease-in-out;">*AF bedeutet Abschlussfahrt</div>
     </div>
     <script>
         let pathFilled = document.getElementById("pathFilled");
         let ak25 = document.getElementById("ak25");
+        let explanation = document.querySelector(".explanation");
         let path = document.getElementById("path");
         let video = document.getElementById("video");
         let music = document.getElementById("background-music");
@@ -109,6 +119,7 @@
                     if (progress <= 50) {
                         clearInterval(interval);
                         ak25.style.opacity = "0";
+                        explanation.style.opacity = "0";
                         path.style.opacity = "0";
                         setTimeout(() => {
                             video.style.opacity = "1";
